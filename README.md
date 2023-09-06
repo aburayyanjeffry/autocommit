@@ -25,5 +25,3 @@ chmod +x autocommit.sh
 ```
 0 * * * * /path-to-your-repo/autocommit.sh
 ```
-
-- 

@@ -1,4 +1,11 @@
 #!/bin/bash
+# Author: Jeffry Johar
+# Date: 6th Sept. 2023
+# About: To auto commit files in a git respository
+# Name : autocommit.sh
+# Crontab: 0 * * * * # every hour
+
+# Global Variable
 NAME=autocommit
 EMAIL="$USER@$(hostname)"
 GIT_HOME=""
