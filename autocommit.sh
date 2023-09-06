@@ -1,7 +1,7 @@
 #!/bin/bash
 NAME=autocommit
 EMAIL="$USER@$(hostname)"
-GIT_HOME=/Users/kaptenjeffry/workspace/etc
+GIT_HOME=""
 
 # Set environment variables for Git author and committer
 export GIT_AUTHOR_NAME="$NAME"
@@ -10,8 +10,13 @@ export GIT_COMMITTER_NAME="$NAME"
 export GIT_COMMITTER_EMAIL="$EMAIL"
 
 # Change to GIT_HOME directory
-cd $GIT_HOME
-pwd
+if [ -z "$GIT_HOME" ]; then
+   cd "$(dirname "$0")"
+   echo "current directory" 
+else
+    cd $GIT_HOME
+    echo "git home has value"
+fi
 
 # Check if git command is available
 if ! command -v git &> /dev/null; then
