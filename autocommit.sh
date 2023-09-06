@@ -13,6 +13,12 @@ export GIT_COMMITTER_EMAIL="$EMAIL"
 cd $GIT_HOME
 pwd
 
+# Check if git command is available
+if ! command -v git &> /dev/null; then
+    echo "Git is not installed on your system. Exiting..."
+    exit 1
+fi
+
 # Check if the current directory is inside a Git repository
 if ! git rev-parse --is-inside-work-tree &> /dev/null; then
     echo "Not in a Git repository. Exiting."
@@ -36,7 +42,7 @@ done < .gitautocommit
 # Commit if there are modified files
 if [ -n "$modified_files" ]; then
     git add $modified_files
-    git commit -m "Auto-commit: Updated $modified_files"
+    git commit -m "autocommit: Updated $modified_files"
     echo "Changes committed."
 else
     echo "No changes to commit."
