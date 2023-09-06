@@ -19,10 +19,10 @@ export GIT_COMMITTER_EMAIL="$EMAIL"
 # Change to GIT_HOME directory
 if [ -z "$GIT_HOME" ]; then
    cd "$(dirname "$0")"
-   echo "current directory" 
+   #echo "current directory" 
 else
     cd $GIT_HOME
-    echo "git home has value"
+    #echo "git home has value"
 fi
 
 # Check if git command is available
@@ -56,6 +56,8 @@ if [ -n "$modified_files" ]; then
     git add $modified_files
     git commit -m "autocommit: Updated $modified_files"
     echo "Changes committed."
+    exit 0
 else
-    echo "No changes to commit."
+    exit 0
+    #echo "No changes to commit."
 fi
