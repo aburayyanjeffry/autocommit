@@ -14,9 +14,9 @@ curl -O https://raw.githubusercontent.com/aburayyanjeffry/autocommit/main/autoco
 chmod +x autocommit.sh
 ```
 
-- Put the files to be auto commit in th e `.autocommit` file
+- Put the files to be auto commit in th e `.gitautocommit` file
 
-- To test the script, do any change to any of the files that specified in the `.autocommit` file. Then execute the script
+- To test the script, do any change to any of the files that specified in the `.gitautocommit` file. Then execute the script
 ```
 ./autocommit.sh
 ```
