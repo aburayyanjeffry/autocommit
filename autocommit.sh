@@ -43,11 +43,23 @@ if [ ! -e ".gitautocommit" ]; then
     exit 1  # Exit with an error code (1) if the file does not exist
 fi
 
-# Check if at least one file is modified
-modified_files=""
+# Read the .gitautocommit file line by line
 while IFS= read -r file; do
-    if git status --porcelain "$file" | grep $file; then
-        modified_files="$modified_files $file"
+    # Check if the file is a directory pattern
+    if [[ "$file" == */* ]]; then
+        # Use 'find' to list all files within the specified directory and subdirectories
+        files_in_directory=$(find $file -type f)
+        # Loop through the files and check their status
+        for subfile in $files_in_directory; do
+            if git status --porcelain "$subfile" | grep "$subfile"; then
+                modified_files="$modified_files $subfile"
+            fi
+        done
+    else
+        # Check the status of the single file
+        if git status --porcelain "$file" | grep "$file"; then
+            modified_files="$modified_files $file"
+        fi
     fi
 done < .gitautocommit
 
@@ -56,8 +68,7 @@ if [ -n "$modified_files" ]; then
     git add $modified_files
     git commit -m "autocommit: Updated $modified_files"
     echo "Changes committed."
-    exit 0
 else
     exit 0
-    #echo "No changes to commit."
+    # echo "No changes to commit."
 fi
