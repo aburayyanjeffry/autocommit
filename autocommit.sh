@@ -6,7 +6,6 @@
 # Crontab: 0 * * * * # every hour
 
 # Global Variable
-GIT_HOME=""
 if [ -z $GIT_AUTOCOMMIT_NAME ]; then
     GIT_AUTOCOMMIT_NAME=autocommit
 fi
@@ -29,11 +28,12 @@ if [ -z $GIT_COMMITTER_EMAIL ]; then
 fi
 
 # Change to GIT_HOME directory
+GIT_HOME="$1"
 if [ -z "$GIT_HOME" ]; then
    cd "$(dirname "$0")"
    #echo "current directory" 
 else
-    cd $GIT_HOME
+    cd "$GIT_HOME" || { echo "Could not cd to $GIT_HOME" >&2; exit 1; }
     #echo "git home has value"
 fi
 
