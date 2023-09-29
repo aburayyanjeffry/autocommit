@@ -26,4 +26,13 @@ chmod +x autocommit.sh
 0 * * * * /path-to-your-repo/autocommit.sh
 ```
 
+It tries to use sensible defaults for the commit name and email, but you can set the `GIT_AUTOCOMMIT_NAME` and `GIT_AUTOCOMMIT_EMAIL` environment variables to control that:
+```
+GIT_AUTOCOMMIT_NAME=hostmaster
+GIT_AUTOCOMMIT_EMAIL=root@localhost
+0 * * * * /path-to-your-script/autocommit.sh
+```
+
+Alternatively if you have the variables `GIT_AUTHOR_NAME`, `GIT_AUTHOR_EMAIL`, `GIT_COMMITTER_NAME`, or `GIT_COMMITTER_EMAIL` set in your environment, this script will respect those.
+
 **Note**: Be cautious when automating Git commits, especially in a production environment, as it can affect your repository's history.

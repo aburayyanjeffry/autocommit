@@ -6,15 +6,27 @@
 # Crontab: 0 * * * * # every hour
 
 # Global Variable
-NAME=autocommit
-EMAIL="$USER@$(hostname)"
 GIT_HOME=""
+if [ -z $GIT_AUTOCOMMIT_NAME ]; then
+    GIT_AUTOCOMMIT_NAME=autocommit
+fi
+if [ -z $GIT_AUTOCOMMIT_EMAIL ]; then
+    GIT_AUTOCOMMIT_EMAIL="autocommit@$(hostname)"
+fi
 
 # Set environment variables for Git author and committer
-export GIT_AUTHOR_NAME="$NAME"
-export GIT_AUTHOR_EMAIL="$EMAIL"
-export GIT_COMMITTER_NAME="$NAME"
-export GIT_COMMITTER_EMAIL="$EMAIL"
+if [ -z $GIT_AUTHOR_NAME ]; then
+    export GIT_AUTHOR_NAME="$GIT_AUTOCOMMIT_NAME"
+fi
+if [ -z $GIT_AUTHOR_EMAIL ]; then
+    export GIT_AUTHOR_EMAIL="$GIT_AUTOCOMMIT_EMAIL"
+fi
+if [ -z $GIT_COMMITTER_NAME ]; then
+    export GIT_COMMITTER_NAME="$GIT_AUTOCOMMIT_NAME"
+fi
+if [ -z $GIT_COMMITTER_EMAIL ]; then
+    export GIT_COMMITTER_EMAIL="$GIT_AUTOCOMMIT_EMAIL"
+fi
 
 # Change to GIT_HOME directory
 if [ -z "$GIT_HOME" ]; then
