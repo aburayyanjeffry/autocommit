@@ -39,19 +39,19 @@ fi
 
 # Check if git command is available
 if ! command -v git &> /dev/null; then
-    echo "Git is not installed on your system. Exiting..."
+    echo "Git is not installed on your system. Exiting..." >&2
     exit 1
 fi
 
 # Check if the current directory is inside a Git repository
 if ! git rev-parse --is-inside-work-tree &> /dev/null; then
-    echo "Not in a Git repository. Exiting."
+    echo "Not in a Git repository. Exiting." >&2
     exit 1  # Exit with an error code (1) to indicate failure
 fi
 
 # Check if .gitautocommit exist
 if [ ! -e ".gitautocommit" ]; then
-    echo ".gitautocommit does not exist"
+    echo ".gitautocommit does not exist" >&2
     exit 1  # Exit with an error code (1) if the file does not exist
 fi
 
