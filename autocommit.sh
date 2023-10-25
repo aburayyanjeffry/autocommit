@@ -6,40 +6,52 @@
 # Crontab: 0 * * * * # every hour
 
 # Global Variable
-NAME=autocommit
-EMAIL="$USER@$(hostname)"
-GIT_HOME=""
+if [ -z $GIT_AUTOCOMMIT_NAME ]; then
+    GIT_AUTOCOMMIT_NAME=autocommit
+fi
+if [ -z $GIT_AUTOCOMMIT_EMAIL ]; then
+    GIT_AUTOCOMMIT_EMAIL="autocommit@$(hostname)"
+fi
 
 # Set environment variables for Git author and committer
-export GIT_AUTHOR_NAME="$NAME"
-export GIT_AUTHOR_EMAIL="$EMAIL"
-export GIT_COMMITTER_NAME="$NAME"
-export GIT_COMMITTER_EMAIL="$EMAIL"
+if [ -z $GIT_AUTHOR_NAME ]; then
+    export GIT_AUTHOR_NAME="$GIT_AUTOCOMMIT_NAME"
+fi
+if [ -z $GIT_AUTHOR_EMAIL ]; then
+    export GIT_AUTHOR_EMAIL="$GIT_AUTOCOMMIT_EMAIL"
+fi
+if [ -z $GIT_COMMITTER_NAME ]; then
+    export GIT_COMMITTER_NAME="$GIT_AUTOCOMMIT_NAME"
+fi
+if [ -z $GIT_COMMITTER_EMAIL ]; then
+    export GIT_COMMITTER_EMAIL="$GIT_AUTOCOMMIT_EMAIL"
+fi
 
 # Change to GIT_HOME directory
+GIT_HOME="$1"
 if [ -z "$GIT_HOME" ]; then
    cd "$(dirname "$0")"
    #echo "current directory" 
 else
-    cd $GIT_HOME
+    cd "$GIT_HOME" || { echo "Could not cd to $GIT_HOME" >&2; exit 1; }
     #echo "git home has value"
 fi
 
 # Check if git command is available
 if ! command -v git &> /dev/null; then
-    echo "Git is not installed on your system. Exiting..."
+    echo "Git is not installed on your system. Exiting..." >&2
     exit 1
 fi
 
 # Check if the current directory is inside a Git repository
 if ! git rev-parse --is-inside-work-tree &> /dev/null; then
-    echo "Not in a Git repository. Exiting."
+    echo "Not in a Git repository. Exiting." >&2
     exit 1  # Exit with an error code (1) to indicate failure
 fi
 
 # Check if .gitautocommit exist
 if [ ! -e ".gitautocommit" ]; then
-    echo ".gitautocommit does not exist"
+    echo ".gitautocommit does not exist" >&2
     exit 1  # Exit with an error code (1) if the file does not exist
 fi
 
